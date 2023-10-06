@@ -1,17 +1,130 @@
-<!-- add_client.html -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <!-- Include necessary CSS and JavaScript libraries here -->
-</head>
-<body>
-    <div class="container">
-        <h2>ADD CLIENTS</h2>
-        <form method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Add Client</button>
-        </form>
+{% extends 'users/base.html' %}
+{% load static %} 
+{% block page_title %}FILL THE FORM BELOW TO ADD CLIENT{% endblock %}
+
+{% block title %} add clients {% endblock title%}
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            
+            <form method="post">
+                {% csrf_token %}
+                {% if form.errors %}
+                    <ul class="list-unstyled">
+                        {% for field, errors in form.errors.items %}
+                            <li class="text-danger">
+                                {{ field }}:
+                                {% for error in errors %}
+                                    <span class="font-weight-bold">{{ error }}</span>
+                                {% endfor %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+                <div class="form-group">
+                    <label for="id_client_fullname" style="font-weight: bold; color: #333;">Client's Full Name</label>
+                    <input type="text" name="client_fullname" id="id_client_fullname" class="form-control form-control-lg">
+                </div>
+                <div class="form-group">
+                    <label for="id_id_number" style="font-weight: bold; color: #333;">ID Number</label>
+                    <input type="text" name="id_number" id="id_id_number" class="form-control form-control-lg">
+                </div>
+                <div class="form-group">
+                    <label for="id_phone_number" style="font-weight: bold; color: #333;">Phone Number</label>
+                    <input type="text" name="phone_number" id="id_phone_number" class="form-control form-control-lg">
+                </div>
+                <div class="form-group">
+                    <label for="id_ministry" style="font-weight: bold; color: #333;">Ministry</label>
+                    <input type="text" name="ministry" id="id_ministry" class="form-control form-control-lg">
+                </div>
+                <div class="form-group">
+                    <label for="id_type" style="font-weight: bold; color: #333;">Select Client Category</label>
+                    <select name="type" id="id_type" class="form-control form-control-lg">
+                        <option value="prospects">Prospects</option>
+                        <option value="lead">Lead</option>
+                        <option value="conversion">Conversion</option>
+                    </select>
+                </div>
+
+                <div id="lead-fields" style="display: none;">
+                    <div class="form-group">
+                        <label for="id_pf_number" style="font-weight: bold; color: #333;">PF Number</label>
+                        <input type="text" name="pf_number" id="id_pf_number" class="form-control form-control-lg">
+                    </div>
+                    <div class="form-group">
+                        <label for="id_amount" style="font-weight: bold; color: #333;">Amount Lead Client Qualify</label>
+                        <input type="text" name="amount" id="id_amount" class="form-control form-control-lg">
+                    </div>
+                    <div class="form-group">
+                        <label for="id_comment" style="font-weight: bold; color: #333;">Comment to the clients</label>
+                        <textarea name="comment" id="id_comment" class="form-control form-control-lg"></textarea>
+                    </div>
+                </div>
+
+                <div id="conversion-fields" style="display: none;">
+                    <div class="form-group">
+                        <label for="id_pf_number_conversion" style="font-weight: bold; color: #333;">Conversion client's PF Number</label>
+                        <input type="text" name="pf_number_conversion" id="id_pf_number_conversion" class="form-control form-control-lg">
+                    </div>
+                    <div class="form-group">
+                        <label for="id_password" style="font-weight: bold; color: #333;">Password</label>
+                        <input type="password" name="password" id="id_password" class="form-control form-control-lg">
+                    </div>
+                    <div class="form-group">
+                        <label for="id_amount_applied" style="font-weight: bold; color: #333;">Amount Applied</label>
+                        <input type="text" name="amount_applied" id="id_amount_applied" class="form-control form-control-lg">
+                    </div>
+                    <div class="form-group">
+                        <label for="id_date_field" style="font-weight: bold; color: #333;">Date applied for loan</label>
+                        <input type="date" name="date_field" id="id_date_field" class="form-control form-control-lg">
+                    </div>
+                    <div class="form-group">
+                        <label for="id_type_loan_qualify" style="font-weight: bold; color: #333;">Select Type of Loan client Qualify</label>
+                        <select name="type_loan_qualify" id="id_type_loan_qualify" class="form-control form-control-lg">
+                            <option value="refinance">Refinance</option>
+                            <option value="topup">Top-Up</option>
+                            <option value="buyoff">Buy-Off</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="id_comment_conversion" style="font-weight: bold; color: #333;">Comment (Conversion)</label>
+                        <textarea name="comment_conversion" id="id_comment_conversion" class="form-control form-control-lg"></textarea>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" class="btn btn-primary" value="Add Client">
+                </div>
+            </form>
+
+            
+
+        </div>
     </div>
-</body>
-</html>
+</div>
+
+<script>
+    const clientTypeSelect = document.querySelector('#id_type');
+    const leadFields = document.querySelector('#lead-fields');
+    const conversionFields = document.querySelector('#conversion-fields');
+
+    function toggleFields() {
+        const selectedType = clientTypeSelect.value;
+        if (selectedType === 'lead') {
+            leadFields.style.display = 'block';
+            conversionFields.style.display = 'none';
+        } else if (selectedType === 'conversion') {
+            conversionFields.style.display = 'block';
+            leadFields.style.display = 'none';
+        } else {
+            leadFields.style.display = 'none';
+            conversionFields.style.display = 'none';
+        }
+    }
+
+    toggleFields();
+
+    clientTypeSelect.addEventListener('change', toggleFields);
+</script>
+{% endblock %}

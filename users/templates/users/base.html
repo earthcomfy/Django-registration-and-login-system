@@ -82,7 +82,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#">
+                        <a href="{% url 'add_client' %}">
                             <i class="fa fa-user-plus"></i> <span>Add Clients</span>
                         </a>
                     </li>
@@ -124,7 +124,7 @@
                                     <li>
                                         <a class="dropdown-toggle" data-toggle="dropdown"><img class="img-responsive rounded-circle" src="{% static 'images/layout_img/user_img.jpg' %}" alt="#" /><span class="name_user">{% block full_name %}{% endblock %}</span></a>
                                         <div class="dropdown-menu">
-                                            <a class="dropdown-item" href="#">My Profile</a>
+                                            <a class="dropdown-item" href="{% url 'users-profile' %}">My Profile</a>
                                             <a class="dropdown-item" href="#">Help</a>
                                             <a class="dropdown-item" href="{% url 'logout' %}"><span>Log Out</span> <i class="fa fa-sign-out"></i></a>
                                         </div>

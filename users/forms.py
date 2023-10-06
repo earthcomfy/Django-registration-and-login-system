@@ -93,3 +93,15 @@ class ClientForm(forms.ModelForm):
     class Meta:
         model = Client
         fields = '__all__'
+
+def __init__(self, *args, **kwargs):
+        super(ClientForm, self).__init__(*args, **kwargs)
+        self.fields['pf_number'].widget.attrs['disabled'] = True
+        self.fields['amount'].widget.attrs['disabled'] = True
+        self.fields['comment'].widget.attrs['disabled'] = True
+        self.fields['pf_number_conversion'].widget.attrs['disabled'] = True
+        self.fields['password'].widget.attrs['disabled'] = True
+        self.fields['amount_applied'].widget.attrs['disabled'] = True
+        self.fields['date_field'].widget.attrs['disabled'] = True
+        self.fields['type_loan_qualify'].widget.attrs['disabled'] = True
+        self.fields['comment_conversion'].widget.attrs['disabled'] = True

@@ -5,6 +5,7 @@ from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.views import View
 from django.contrib.auth.decorators import login_required
+import time
 
 from .forms import *
 
@@ -102,9 +103,17 @@ def add_client(request):
         form = ClientForm(request.POST)
         if form.is_valid():
             form.save()
+            time.sleep(2) 
             # Redirect to a success page or do something else
-            return redirect('success')
+            return redirect('success_page')
+            form = ClientForm()
     else:
         form = ClientForm()
     
-    return render(request, 'add_client.html', {'form': form})
+    return render(request, 'users/add_client.html', {'form': form})
+
+def success_page(request):
+    return render(request, 'users/success.html')
+
+def calendar_view(request):
+    return render(request, 'users/calendar.html')

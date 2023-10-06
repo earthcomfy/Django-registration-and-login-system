@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from PIL import Image
-
+from django.core.validators import RegexValidator
 
 # Extending User Model Using a One-To-One Link
 class Profile(models.Model):
@@ -29,8 +29,26 @@ class Profile(models.Model):
 
 class Client(models.Model):
     client_fullname = models.CharField(max_length=255)
-    id_number = models.CharField(max_length=255, unique=True)
-    phone_number = models.CharField(max_length=20)
+    id_number = models.CharField(
+                max_length=8,  # Allow up to 8 characters
+                unique=True,
+                validators=[
+                    RegexValidator(
+                        regex=r'^[0-9]{7,8}$',  # Only digits, 7 to 8 characters
+                        message='ID number must be 7 to 8 digits long.',
+                    ),
+                ]
+            )
+
+    phone_number = models.CharField(
+                max_length=12,  # Allow up to 12 characters
+                validators=[
+                    RegexValidator(
+                        regex=r'^[0-9]{10,12}$',  # Only digits, 10 to 12 characters
+                        message='Phone number must be 10 to 12 digits long.',
+                    ),
+                ]
+            )
     ministry = models.CharField(max_length=255)
     TYPE_CHOICES = (
         ('prospects', 'Prospects'),
