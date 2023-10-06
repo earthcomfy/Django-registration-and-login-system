@@ -23,3 +23,35 @@ class Profile(models.Model):
             new_img = (100, 100)
             img.thumbnail(new_img)
             img.save(self.avatar.path)
+
+
+
+
+class Client(models.Model):
+    client_fullname = models.CharField(max_length=255)
+    id_number = models.CharField(max_length=255, unique=True)
+    phone_number = models.CharField(max_length=20)
+    ministry = models.CharField(max_length=255)
+    TYPE_CHOICES = (
+        ('prospects', 'Prospects'),
+        ('lead', 'Lead'),
+        ('conversion', 'Conversion'),
+    )
+    type = models.CharField(max_length=20, choices=TYPE_CHOICES)
+    pf_number = models.CharField(max_length=255, blank=True, null=True)
+    amount = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
+    comment = models.TextField(blank=True, null=True)
+    pf_number_conversion = models.CharField(max_length=255, blank=True, null=True)
+    password = models.CharField(max_length=255, blank=True, null=True)
+    amount_applied = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
+    date_field = models.DateField(blank=True, null=True)
+    comment_conversion = models.TextField(blank=True, null=True)
+    TYPE_LOAN_CHOICES = (
+        ('refinance', 'Refinance'),
+        ('topup', 'Top-Up'),
+        ('buyoff', 'Buy-Off'),
+    )
+    type_loan_qualify = models.CharField(max_length=20, choices=TYPE_LOAN_CHOICES, blank=True, null=True)
+
+    def __str__(self):
+        return self.client_fullname

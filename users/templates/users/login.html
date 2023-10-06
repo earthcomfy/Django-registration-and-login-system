@@ -1,79 +1,100 @@
-{% extends "users/base.html" %}
-{% block title %} Login Page {% endblock title%}
-{% block content %}
-    <div class="form-content my-3 p-3">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-5">
-                    <div class="card shadow-lg border-0 rounded-lg mt-0 mb-3">
-                        <div class="card-header justify-content-center">
-                          <h3 class="font-weight-light my-1 text-center">Sign In</h3>
-                        </div>
-                        {% if form.errors %}
-                            <div class="alert alert-danger alert-dismissible" role="alert">
-                                <div id="form_errors">
-                                    {% for key, value in form.errors.items %}
-                                        <strong>{{ value }}</strong>
-                                    {% endfor %}
-                                </div>
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
+{% load static %} 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- basic -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- mobile metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <!-- site metas -->
+    <title>Matunda AC Agents</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- site icon -->
+    <link rel="icon" href="{% static 'images/fevicon.png' %}" type="image/png" />
+    <!-- bootstrap css -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
+    <!-- site css -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <!-- responsive css -->
+    <link rel="stylesheet" href="{% static 'css/responsive.css' %}" />
+    <!-- color css -->
+    <link rel="stylesheet" href="{% static 'css/colors.css' %}" />
+    <!-- select bootstrap -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap-select.css' %}" />
+    <!-- scrollbar css -->
+    <link rel="stylesheet" href="{% static 'css/perfect-scrollbar.css' %}" />
+    <!-- custom css -->
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}" />
+    <!-- calendar file css -->
+    <link rel="stylesheet" href="{% static 'js/semantic.min.css' %}" />
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body class="inner_page login">
+<div class="full_container">
+    <div class="container">
+        <div class="center verticle_center full_height">
+            <div class="login_section">
+                <div class="logo_login">
+                     <div class="center">
+                        <img width="210" src="{% static 'images/logos/s/logo.png' %}" alt="#" />
+                     </div>
+                </div>
+                <div class="login_form">
+                    <form method="POST" action="{% url 'login' %}">
+                        {% csrf_token %}
+                        <fieldset>
+                            <div class="field">
+                                <label>Username</label>
+                                <input type="text" name="username" class="form-control {% if username_err %}is-invalid{% endif %}" value="{{ username }}">
+                                <span class="invalid-feedback">{{ username_err }}</span>
                             </div>
-                        {% endif %}
-                        <div class="card-body">
-                            <form method="POST">
-                                {% csrf_token %}
-                                <div class="form-row">
-                                    <div class="col-md-10 offset-md-1">
-                                        <div class="form-group">
-                                            <a href="{% url 'social:begin' 'github' %}"
-                                                   class="btn btn-link btn-lg active btn-block">Sign in with GitHub</a>
-                                            <a href="{% url 'social:begin' 'google-oauth2' %}"
-                                                   class="btn btn-link btn-lg active btn-block">Sign in with Google</a>
-                                            <hr>
-                                            <p class="text-center"><strong>OR</strong></p>
-                                            <hr>
-                                            <label class="small mb-1">Username</label>
-                                            {{ form.username }}
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="col-md-10 offset-md-1">
-                                        <div class="form-group">
-                                          <label class="small mb-1">Password</label>
-                                          {{ form.password }}
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="col-md-10 offset-md-1">
-                                        <div class="form-group">
-                                            <!-- Add a Remember me functionality -->
-                                            {{ form.remember_me }}
-                                            <label> Remember me</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="col-md-10 offset-md-1">
-                                        <div class="form-group mt-0 mb-1">
-                                          <button name="login" class="col-md-12 btn btn-dark" id="login">Sign in</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="card-footer text-center">
-                            <div class="small">
-                                <a href="{% url 'users-register' %}">Don't have an account yet? Go to signup</a><br>
-                                <a href="{% url 'password_reset' %}"><i>Forgot Password?</i></a>
+                            <div class="field">
+                                <label>Password</label>
+                                <input type="password" name="password" class="form-control {% if password_err %}is-invalid{% endif %}">
+                                <span class="invalid-feedback">{{ password_err }}</span>
                             </div>
-                        </div>
-                    </div>
+
+                            <!-- Add this div to display incorrect password message -->
+                            <div class="text-danger">{{ login_err }}</div>
+
+                            <div class="field">
+                                <label class="label_field hidden">hidden label</label>
+                                <label class="form-check-label"><input type="checkbox" class="form-check-input"> Remember Me</label>
+                                <a class="forgot" href="">Forgotten Password?</a>
+                            </div>
+                            <div class="field margin_0">
+                                <label class="label_field hidden">Login</label>
+                                <input type="submit" class="btn btn-primary" value="Login">
+                            </div>
+                            <p>Don't have an account? <a href="{% url 'users-register' %}" style="color: blue;">Sign up now</a>.</p>
+                        </fieldset>
+                    </form>
                 </div>
             </div>
         </div>
-     </div>
-{% endblock content %}
+    </div>
+</div>
+<!-- jQuery -->
+<script src="{% static 'js/jquery.min.js' %}"></script>
+<script src="{% static 'js/popper.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<!-- wow animation -->
+<script src="{% static 'js/animate.js' %}"></script>
+<!-- select country -->
+<script src="{% static 'js/bootstrap-select.js' %}"></script>
+<!-- nice scrollbar -->
+<script src="{% static 'js/perfect-scrollbar.min.js' %}"></script>
+<script>
+     var ps = new PerfectScrollbar('#sidebar');
+</script>
+<!-- custom js -->
+<script src="{% static 'js/custom.js' %}"></script>
+</body>
+</html>

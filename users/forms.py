@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 
 from .models import Profile
+from .models import Client
 
 
 class RegisterForm(UserCreationForm):
@@ -86,3 +87,9 @@ class UpdateProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ['avatar', 'bio']
+
+
+class ClientForm(forms.ModelForm):
+    class Meta:
+        model = Client
+        fields = '__all__'

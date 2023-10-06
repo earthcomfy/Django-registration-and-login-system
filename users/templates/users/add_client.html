@@ -1,0 +1,17 @@
+<!-- add_client.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Include necessary CSS and JavaScript libraries here -->
+</head>
+<body>
+    <div class="container">
+        <h2>ADD CLIENTS</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Add Client</button>
+        </form>
+    </div>
+</body>
+</html>
