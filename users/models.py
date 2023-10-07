@@ -73,3 +73,15 @@ class Client(models.Model):
 
     def __str__(self):
         return self.client_fullname
+
+
+class Attendance(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    date = models.DateField()
+    location = models.CharField(max_length=255)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    latitude = models.DecimalField(max_digits=9, decimal_places=6)  # Store latitude as a DecimalField
+    longitude = models.DecimalField(max_digits=9, decimal_places=6)  # Store longitude as a DecimalField
+
+    class Meta:
+        unique_together = ('user', 'date',)

@@ -1,0 +1,103 @@
+{% extends 'users/base.html' %}
+{% load static %} 
+{% block page_title %}ATTENDANCE REGISTER{% endblock %}
+
+{% block title %}ATTENDANCE {% endblock title%}
+{% block content %}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Attendance Register</title>
+
+<!-- Include FullCalendar library -->
+<link href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.10.1/fullcalendar.min.css' rel='stylesheet' />
+<script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.10.1/fullcalendar.min.js'></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('example14');
+
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth', // Display the month view by default
+            // Add your event sources or events here if needed
+        });
+
+        calendar.render();
+    });
+</script>
+
+<script>
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition);
+        } else {
+            alert("Geolocation is not supported by this browser.");
+        }
+    }
+
+    function showPosition(position) {
+        // Populate the latitude and longitude fields in the form
+        document.getElementById("latitude").value = position.coords.latitude;
+        document.getElementById("longitude").value = position.coords.longitude;
+    }
+</script>
+</head>
+<body>
+<!-- Calendar Section -->
+<div class="col-md-12">
+    <div class="white_shd full margin_bottom_30">
+        <div class="full graph_head">
+            <div class="heading1 margin_0">
+                <h2><i class="fa fa-calendar" aria-hidden="true"></i> Calendar</h2>
+            </div>
+        </div>
+        <div class="full padding_infor_info">
+            <div class="invoice_inner">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="white_shd full margin_bottom_30">
+                            <div class="full graph_head">
+                                <div class="heading1 margin_0">
+                                    <h2>Calendar</h2>
+                                </div>
+                            </div>
+                            <div class="full progress_bar_inner">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="full">
+                                            <div class="ui calendar" id="example14"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h1>Record Attendance</h1>
+{% if error_message %}
+<script>
+    alert("❌ Error: Attendance recording failed. Please try again.");
+</script>
+{% endif %}
+
+{% if success_message %}
+    <script>
+    alert("✅ Attendance recorded successfully!");
+    </script>
+{% endif %}
+<form method="post">
+    {% csrf_token %}
+    <input type="hidden" id="latitude" name="latitude">
+    <input type="hidden" id="longitude" name="longitude">
+    
+    <button type="button" onclick="getLocation()" class="btn btn-primary">Get Current Location</button>
+    
+    <button type="submit" class="btn btn-primary">Submit Daily Register</button>
+</form>
+</body>
+    
+<{% endblock %}

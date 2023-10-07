@@ -66,16 +66,16 @@
                 <h4>General</h4>
                 <ul class="list-unstyled components">
                     <li>
-                        <a href="#">
+                        <a href="{% url 'users-home' %}">
                             <i class="fa fa-star"></i> <span>Dashboard</span>
                         </a>
                     </li>
                     <li>
-                        <a href="#apps" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fa fa-object-group blue2_color"></i> <span>Actions</span></a>
-                        <ul class="collapse list-unstyled" id="apps">
-                            <li><a href="#"><span>Calendar</span></a></li>
-                        </ul>
+                        <a href="{% url 'record_attendance' %}">
+                            <i class="fa fa-calendar"></i> <span>Daily Attendance Register</span>
+                        </a>
                     </li>
+                    
                     <li>
                         <a href="#">
                             <i class="fa fa-paper-plane red_color"></i> <span>Contact</span>
@@ -91,6 +91,7 @@
                             <i class="fa fa-users"></i> <span>My Clients</span>
                         </a>
                     </li>
+                    
                     <li><a href="#"><i class="fa fa-bar-chart-o green_color"></i> <span>Charts</span></a></li>
                     <li>
                       <a href="{% url 'logout' %}">

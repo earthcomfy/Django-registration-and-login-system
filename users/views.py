@@ -6,6 +6,10 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.views import View
 from django.contrib.auth.decorators import login_required
 import time
+import datetime
+from .models import Attendance
+from .forms import AttendanceForm 
+import calendar
 
 from .forms import *
 
@@ -61,6 +65,7 @@ class CustomLoginView(LoginView):
 
         # else browser session will be as long as the session cookie time "SESSION_COOKIE_AGE" defined in settings.py
         return super(CustomLoginView, self).form_valid(form)
+        return reverse_lazy('home')
 
 
 class ResetPasswordView(SuccessMessageMixin, PasswordResetView):
@@ -115,5 +120,41 @@ def add_client(request):
 def success_page(request):
     return render(request, 'users/success.html')
 
+# def calendar_view(request):
+#     return render(request, 'users/calendar.html')
+
 def calendar_view(request):
-    return render(request, 'users/calendar.html')
+    # Create a calendar object
+    cal = calendar.HTMLCalendar(calendar.SUNDAY)
+
+    # Generate the HTML for the current month's calendar
+    html_calendar = cal.formatmonth(2023, 10)
+
+    # You can customize the year and month as needed
+    # Replace 2023 and 10 with the desired year and month values
+
+    return render(request, 'users/calendar.html', {'calendar': html_calendar})
+
+@login_required
+def record_attendance(request):
+    if request.method == 'POST':
+        form = AttendanceForm(request.POST)
+        if form.is_valid():
+            user = request.user
+            date = datetime.date.today()
+            latitude = form.cleaned_data['latitude']
+            longitude = form.cleaned_data['longitude']
+            timestamp = datetime.datetime.now()
+
+            try:
+                Attendance.objects.create(user=user, date=date, location=f"({latitude}, {longitude})", latitude=latitude, longitude=longitude, timestamp=timestamp)
+                # Display a JavaScript alert
+                return render(request, 'users/record_attendance.html', {'form': form, 'success_message': 'Attendance recorded successfully!'})
+            except Exception as e:
+                error_message = "An error occurred while recording attendance. Please try again."
+                return render(request, 'users/record_attendance.html', {'form': form, 'error_message': error_message})
+
+    else:
+        form = AttendanceForm()
+
+    return render(request, 'users/record_attendance.html', {'form': form})

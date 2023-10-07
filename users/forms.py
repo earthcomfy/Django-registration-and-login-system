@@ -105,3 +105,7 @@ def __init__(self, *args, **kwargs):
         self.fields['date_field'].widget.attrs['disabled'] = True
         self.fields['type_loan_qualify'].widget.attrs['disabled'] = True
         self.fields['comment_conversion'].widget.attrs['disabled'] = True
+        
+class AttendanceForm(forms.Form):
+    latitude = forms.CharField(widget=forms.HiddenInput())
+    longitude = forms.CharField(widget=forms.HiddenInput())
