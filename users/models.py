@@ -28,6 +28,7 @@ class Profile(models.Model):
 
 
 class Client(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default=None)   # Add a ForeignKey field to User
     client_fullname = models.CharField(max_length=255)
     id_number = models.CharField(
                 max_length=8,  # Allow up to 8 characters

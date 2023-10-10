@@ -1,10 +1,10 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.contrib.auth.views import LoginView, PasswordResetView, PasswordChangeView
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.views import View
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 import time
 import datetime
 from .models import Attendance
@@ -13,7 +13,7 @@ import calendar
 
 from .forms import *
 
-
+@login_required
 def home(request):
     return render(request, 'users/home.html')
 
@@ -103,22 +103,19 @@ def profile(request):
     return render(request, 'users/profile.html', {'user_form': user_form, 'profile_form': profile_form})
 
 
+@login_required
 def add_client(request):
     if request.method == 'POST':
         form = ClientForm(request.POST)
         if form.is_valid():
-            form.save()
-            time.sleep(2) 
-            # Redirect to a success page or do something else
-            return redirect('success_page')
-            form = ClientForm()
+            client = form.save(commit=False)
+            client.user = request.user  # Set the user field to the currently logged-in user
+            client.save()
+            return redirect('user_clients')  # Redirect to the user's clients page
     else:
         form = ClientForm()
-    
-    return render(request, 'users/add_client.html', {'form': form})
 
-def success_page(request):
-    return render(request, 'users/success.html')
+    return render(request, 'users/add_client.html', {'form': form})
 
 # def calendar_view(request):
 #     return render(request, 'users/calendar.html')
@@ -133,7 +130,7 @@ def calendar_view(request):
     # You can customize the year and month as needed
     # Replace 2023 and 10 with the desired year and month values
 
-    return render(request, 'users/calendar.html', {'calendar': html_calendar})
+    return render(request, 'users/record_attendance.html', {'calendar': html_calendar})
 
 @login_required
 def record_attendance(request):
@@ -158,3 +155,19 @@ def record_attendance(request):
         form = AttendanceForm()
 
     return render(request, 'users/record_attendance.html', {'form': form})
+
+@login_required
+def user_clients(request):
+    # Display clients added by the currently logged-in user
+    clients = Client.objects.filter(user=request.user)
+    return render(request, 'users/user_clients.html', {'clients': clients})
+
+@permission_required('users.can_view_all_clients', raise_exception=True)
+def admin_clients(request):
+    # Display all clients for admins and management
+    clients = Client.objects.all()
+    return render(request, 'users/admin_clients.html', {'clients': clients})
+
+def client_details(request, pk):
+    client = get_object_or_404(Client, pk=pk)
+    return render(request, 'users/client_details.html', {'client': client})
