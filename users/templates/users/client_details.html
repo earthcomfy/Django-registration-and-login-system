@@ -1,0 +1,32 @@
+{% extends 'users/base.html' %}
+{% load static %} 
+{% block page_title %} CLIENT details{% endblock %}
+
+{% block title %} more{% endblock title%}
+{% block content %}
+  <div class="card">
+    <div class="card-header">
+      <h5 class="card-title">{{ client.client_fullname }}</h5>
+    </div>
+    <div class="card-body">
+      <h6 class="card-subtitle mb-2 text-muted">Client Details</h6>
+      <p class="card-text"><strong>ID:</strong> {{ client.id_number }}</p>
+      <p class="card-text"><strong>Phone:</strong> {{ client.phone_number }}</p>
+      <p class="card-text"><strong>Ministry:</strong> {{ client.ministry }}</p>
+      <p class="card-text"><strong>Type:</strong> {{ client.type }}</p>
+      
+      <!-- Add more fields as needed -->
+      <p class="card-text"><strong>PF Number:</strong> {{ client.pf_number }}</p>
+      <p class="card-text"><strong>Amount:</strong> ${{ client.amount }}</p>
+      <p class="card-text"><strong>Comments:</strong> {{ client.comment }}</p>
+      
+      <!-- You can continue adding more fields here -->
+      <p class="card-text"><strong>PF Number (Conversion):</strong> {{ client.pf_number_conversion }}</p>
+        <p class="card-text"><strong>Password:</strong> {{ client.password }}</p>
+        <p class="card-text"><strong>Amount Applied:</strong> ${{ client.amount_applied }}</p>
+        <p class="card-text"><strong>Date:</strong> {{ client.date_field }}</p>
+        <p class="card-text"><strong>Comment (Conversion):</strong> {{ client.comment_conversion }}</p>
+
+    </div>
+  </div>
+{% endblock %}

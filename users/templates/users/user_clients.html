@@ -1,0 +1,26 @@
+{% extends 'users/base.html' %}
+{% load static %} 
+{% block page_title %}MY CLIENTS{% endblock %}
+
+{% block title %} clients {% endblock title%}
+{% block content %}
+  <div class="row">
+    {% for client in clients %}
+      <div class="col-md-4 mb-4">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">{{ client.client_fullname }}</h5>
+            <p class="card-text">ID: {{ client.id_number }}</p>
+            <p class="card-text">Phone: {{ client.phone_number }}</p>
+            <p class="card-text">Ministry: {{ client.ministry }}</p>
+            <p class="card-text">Type: {{ client.type }}</p>
+            <!-- Add more fields as needed -->
+
+            <!-- Example: Link to client details page -->
+            <a href="{% url 'client_details' client.pk %}" class="btn btn-primary">Details</a>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}

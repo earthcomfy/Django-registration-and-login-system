@@ -133,7 +133,7 @@ def calendar_view(request):
     # You can customize the year and month as needed
     # Replace 2023 and 10 with the desired year and month values
 
-    return render(request, 'users/calendar.html', {'calendar': html_calendar})
+    return render(request, 'users/record_attendance.html', {'calendar': html_calendar})
 
 @login_required
 def record_attendance(request):
@@ -158,3 +158,9 @@ def record_attendance(request):
         form = AttendanceForm()
 
     return render(request, 'users/record_attendance.html', {'form': form})
+
+@login_required
+def user_clients(request):
+    # Display clients added by the currently logged-in user
+    clients = Client.objects.filter(user=request.user)
+    return render(request, 'users/user_clients.html', {'clients': clients})
