@@ -155,19 +155,3 @@ def record_attendance(request):
         form = AttendanceForm()
 
     return render(request, 'users/record_attendance.html', {'form': form})
-
-@login_required
-def user_clients(request):
-    # Display clients added by the currently logged-in user
-    clients = Client.objects.filter(user=request.user)
-    return render(request, 'users/user_clients.html', {'clients': clients})
-
-@permission_required('users.can_view_all_clients', raise_exception=True)
-def admin_clients(request):
-    # Display all clients for admins and management
-    clients = Client.objects.all()
-    return render(request, 'users/admin_clients.html', {'clients': clients})
-
-def client_details(request, pk):
-    client = get_object_or_404(Client, pk=pk)
-    return render(request, 'users/client_details.html', {'client': client})

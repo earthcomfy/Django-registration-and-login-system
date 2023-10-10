@@ -104,6 +104,10 @@ body.demos .service-widget h3 {
     background-color: #ffffff;
 }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> aa4d792203ac759ad6ca019f3e8a91c43bfbbcf9
 body.demos .service-widget {
     margin: 0 0 30px;
     padding: 30px;
@@ -1202,7 +1206,11 @@ a[data-toggle="collapse"] {
     margin-top: 10px;
 }
 
+<<<<<<< HEAD
 #rebenue {}
+=======
+/* #rebenue {} */
+>>>>>>> aa4d792203ac759ad6ca019f3e8a91c43bfbbcf9
 
 .graph_revenue {
     padding: 0;
@@ -2397,7 +2405,11 @@ h2.invoice_head small {
     background-color: #fff;
 }
 
+<<<<<<< HEAD
 .table_row tbody {}
+=======
+/* .table_row tbody {} */
+>>>>>>> aa4d792203ac759ad6ca019f3e8a91c43bfbbcf9
 
 .table_row tbody tr {
     border: none;
@@ -2631,7 +2643,11 @@ ul.inbox-nav li a i {
     top: 1px;
 }
 
+<<<<<<< HEAD
 ul.inbox-nav li a span.label {}
+=======
+/* ul.inbox-nav li a span.label {} */
+>>>>>>> aa4d792203ac759ad6ca019f3e8a91c43bfbbcf9
 
 ul.labels-info li h4 {
     color: #5c5c5e;
@@ -3163,7 +3179,11 @@ ul.labels-category li p {
     padding: 7px 0;
 }
 
+<<<<<<< HEAD
 .bottom_list .left_rating p.ratings a {}
+=======
+/* .bottom_list .left_rating p.ratings a {} */
+>>>>>>> aa4d792203ac759ad6ca019f3e8a91c43bfbbcf9
 
 .fa.fa-star {
     color: #ff9800;

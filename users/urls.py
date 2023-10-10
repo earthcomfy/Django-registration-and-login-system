@@ -14,9 +14,13 @@ urlpatterns = [
     path('calendar/', views.calendar_view, name='calendar_view'),
     path('attendance/', views.record_attendance, name='record_attendance'),
     
+<<<<<<< HEAD
     path('user-clients/', views.user_clients, name='user_clients'),
     path('admin-clients/', views.admin_clients, name='admin_clients'),
     path('client/<int:pk>/', views.client_details, name='client_details'),
+=======
+    
+>>>>>>> aa4d792203ac759ad6ca019f3e8a91c43bfbbcf9
 
   
 ]
