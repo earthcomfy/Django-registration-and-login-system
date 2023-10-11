@@ -1,13 +1,12 @@
-<!-- success.html -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Success Page</title>
-</head>
-<body>
+{% extends 'users/base.html' %}
+{% load static %} 
+{% block page_title %}FILL THE FORM BELOW TO ADD CLIENT{% endblock %}
+
+{% block title %} add clients successfully {% endblock title%}
+{% block content %}
+   
     <div>
-        <h1>Agent Added Successfully</h1>
+        <h3>Agent Added Successfully</h3>
         <p>Your agent has been added successfully!</p>
         <p>You will be redirected to the previous page shortly.</p>
     </div>
@@ -16,5 +15,5 @@
             window.history.back(); // Redirect to the previous page
         }, 3000); // Redirect after 3 seconds (adjust the delay as needed)
     </script>
-</body>
-</html>
+{% endblock %}
+

@@ -5,9 +5,25 @@
 {% block title %} clients {% endblock title%}
 {% block content %}
   <div class="row">
+    <div class="col-md-6 mb-4">
+      <label for="nameFilter">Search by Name:</label>
+      <input type="text" id="nameFilter" class="form-control rounded-pill glowing-border" style="width: 40%;" placeholder="Enter client name">
+    </div>
+    <div class="col-md-6 mb-4">
+      <label for="categoryFilter">Filter by Category:</label>
+      <select id="categoryFilter" class="form-control" style="width: 40%;">
+        <option value="all">All</option>
+        <option value="prospects">Prospects</option>
+        <option value="lead">Lead</option>
+        <option value="conversation">Conversation</option>
+      </select>
+    </div>
     {% for client in clients %}
-      <div class="col-md-4 mb-4">
+      <div class="col-md-4 mb-4 client-card" data-category="{{ client.type }}" data-name="{{ client.client_fullname }}">
         <div class="card">
+          <div class="card-icon">
+            <i class="bi bi-person"></i>
+          </div>
           <div class="card-body">
             <h5 class="card-title">{{ client.client_fullname }}</h5>
             <p class="card-text">ID: {{ client.id_number }}</p>
@@ -23,4 +39,42 @@
       </div>
     {% endfor %}
   </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+  $("#nameFilter").on("input", function() {
+    var searchValue = $(this).val().toLowerCase();
+    var selectedCategory = $("#categoryFilter").val();
+    
+    $(".client-card").each(function() {
+      var clientName = $(this).data("name").toLowerCase();
+      var clientCategory = $(this).data("category");
+      
+      if ((selectedCategory === "all" || selectedCategory === clientCategory) && (clientName.includes(searchValue))) {
+        $(this).show();
+      } else {
+        $(this).hide();
+      }
+    });
+  });
+  
+  $("#categoryFilter").change(function() {
+    var selectedCategory = $(this).val();
+    var searchValue = $("#nameFilter").val().toLowerCase();
+    
+    $(".client-card").each(function() {
+      var clientName = $(this).data("name").toLowerCase();
+      var clientCategory = $(this).data("category");
+      
+      if ((selectedCategory === "all" || selectedCategory === clientCategory) && (clientName.includes(searchValue))) {
+        $(this).show();
+      } else {
+        $(this).hide();
+      }
+    });
+  });
+});
+</script>
 {% endblock %}

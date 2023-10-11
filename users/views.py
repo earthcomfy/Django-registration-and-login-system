@@ -111,14 +111,13 @@ def add_client(request):
             client = form.save(commit=False)
             client.user = request.user  # Set the user field to the currently logged-in user
             client.save()
-            return redirect('user_clients')  # Redirect to the user's clients page
+            return redirect('success_page')  # Redirect to the user's clients page
     else:
         form = ClientForm()
 
     return render(request, 'users/add_client.html', {'form': form})
 
-# def calendar_view(request):
-#     return render(request, 'users/calendar.html')
+
 
 def calendar_view(request):
     # Create a calendar object
@@ -148,10 +147,25 @@ def record_attendance(request):
                 # Display a JavaScript alert
                 return render(request, 'users/record_attendance.html', {'form': form, 'success_message': 'Attendance recorded successfully!'})
             except Exception as e:
-                error_message = "An error occurred while recording attendance. Please try again."
+                error_message = f"Error occurred: {str(e)}"
                 return render(request, 'users/record_attendance.html', {'form': form, 'error_message': error_message})
-
     else:
         form = AttendanceForm()
 
     return render(request, 'users/record_attendance.html', {'form': form})
+
+def success_view(request):
+    return render(request, 'users/success.html')
+
+@login_required
+def user_clients(request):
+    # Display clients added by the currently logged-in user
+    clients = Client.objects.filter(user=request.user)
+    return render(request, 'users/user_clients.html', {'clients': clients})
+
+def client_details(request, pk):
+    client = get_object_or_404(Client, pk=pk)
+    return render(request, 'users/client_details.html', {'client': client})
+
+def attendance_success(request):
+    return render(request, 'attendance_success.html')

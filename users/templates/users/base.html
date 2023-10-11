@@ -17,7 +17,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
     <!-- site icon -->
-    <link rel="icon" href="{% static 'images/logos/s/logo_icon.png' %}" type="image/png" />
+    <link rel="icon" href="{% static 'images/logos/logo_icon.png' %}" type="image/png" />
+    
     <!-- bootstrap css -->
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
     <!-- site css -->
@@ -25,11 +26,14 @@
     <!-- responsive css -->
     <link rel="stylesheet" href="{% static 'css/responsive.css' %}" />
     <!-- color css -->
-    <link rel="stylesheet" href="{% static 'css/colors.css' %}" />
+    {% comment %} <link rel="stylesheet" href="{% static 'css/color_2.css' %}" /> {% endcomment %}
     <!-- select bootstrap -->
     <link rel="stylesheet" href="{% static 'css/bootstrap-select.css' %}" />
     <!-- scrollbar css -->
     <link rel="stylesheet" href="{% static 'css/perfect-scrollbar.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/animate.css' %}">
+    <link rel="stylesheet" href="{% static 'css/flaticon.css' %}">
+    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
     <!-- custom css -->
     <link rel="stylesheet" href="{% static 'css/custom.css' %}" />
     <!--[if lt IE 9]>
@@ -87,7 +91,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#">
+                        <a href="{% url 'user_clients' %}">
                             <i class="fa fa-users"></i> <span>My Clients</span>
                         </a>
                     </li>
@@ -111,7 +115,7 @@
                     <div class="full">
                         <button type="button" id="sidebarCollapse" class="sidebar_toggle"><i class="fa fa-bars"></i></button>
                         <div class="logo_section">
-                            <a href="#"><img class="img-responsive" src="{% static 'images/logos/s/logo.png' %}" alt="#" /></a>
+                            <a href="#"><img class="img-responsive" src="{% static 'images/logos/logo.png' %}" alt="#" /></a>
                         </div>
                         <div class="right_topbar">
                             <div class="icon_info">

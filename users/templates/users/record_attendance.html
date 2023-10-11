@@ -42,54 +42,6 @@
 </script>
 </head>
 <body>
-<!-- Calendar Section -->
-<div class="col-md-12">
-    <div class="white_shd full margin_bottom_30">
-        <div class="full graph_head">
-            <div class="heading1 margin_0">
-                <h2><i class="fa fa-calendar" aria-hidden="true"></i> Calendar</h2>
-            </div>
-        </div>
-        <div class="full padding_infor_info">
-            <div class="invoice_inner">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="white_shd full margin_bottom_30">
-                            <div class="full graph_head">
-                                <div class="container">
-                                    <h1 class="mt-5">Calendar</h1>
-                            
-                                    <!-- Year Selector -->
-                                    {% comment %} <div class="form-group mt-3">
-                                        <label for="year">Select Year:</label>
-                                        <select class="form-control" id="year" onchange="changeYear()">
-                                            {% for year in range(2020, 2031) %}
-                                                <option value="{{ year }}">{{ year }}</option>
-                                            {% endfor %}
-                                        </select>
-                                    </div> {% endcomment %}
-                            
-                                    <!-- Display Calendar -->
-                                    {{ calendar | safe }}
-                                </div>
-                            
-                            </div>
-                            <div class="full progress_bar_inner">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="full">
-                                            <div class="ui calendar" id="example14"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
 <h1>Record Attendance</h1>
 {% if error_message %}
