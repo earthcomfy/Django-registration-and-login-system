@@ -30,9 +30,11 @@ SECRET_KEY = str(os.getenv('SECRET_KEY'))
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['c1e0-196-250-212-172.ngrok-free.app','127.0.0.1']
+ALLOWED_HOSTS = ['bed6-196-250-212-73.ngrok-free.app','127.0.0.1']
 
-
+# CSRF_TRUSTED_ORIGINS
+CORS_ORIGIN_WHITELIST=['https://bed6-196-250-212-73.ngrok-free.app','http://127.0.0.1']
+CSRF_TRUSTED_ORIGINS=['https://bed6-196-250-212-73.ngrok-free.app','http://127.0.0.1']
 
 # Application definition
 

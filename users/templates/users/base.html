@@ -51,7 +51,7 @@
                 <div class="sidebar-header">
                     <div class="logo_section">
                         <a href="#">
-                            <img class="logo_icon img-responsive" src="{% static 'images/logos/s/logo_icon.png' %}" alt="#" />
+                            <img class="logo_icon img-responsive" src="{% static 'images/logos/logo_icon.png' %}" alt="#" />
                         </a>
                     </div>
                 </div>
@@ -60,7 +60,7 @@
                     <div class="user_profle_side">
                         <div class="user_img"><img class="img-responsive" src="{% static 'images/layout_img/user_img.jpg' %}" alt="#" /></div>
                         <div class="user_info">
-                            <h6>{{user.first_name.title|default:'Guest'}}</h6>
+                            <h6>Hi {{user.first_name.title|default:'Guest'}}</h6>
                             <p><span class="online_animation"></span> Online</p>
                         </div>
                     </div>
@@ -120,9 +120,9 @@
                         <div class="right_topbar">
                             <div class="icon_info">
                               <ul>
-                                <li><a href="#"><i class="fas fa-bell"></i><span class="badge">2</span></a></li>
+                                <li><a href="#"><i class="fas fa-bell"></i><span class="badge">0</span></a></li>
                                 <li><a href="#"><i class="fas fa-question-circle"></i></a></li>
-                                <li><a href="#"><i class="fas fa-envelope"></i><span class="badge">3</span></a></li>
+                                <li><a href="#"><i class="fas fa-envelope"></i><span class="badge">0</span></a></li>
                             </ul>
                             
                                 <ul class="user_profile_dd">
@@ -186,6 +186,9 @@
     var ps = new PerfectScrollbar('#sidebar');
 </script>
 <!-- custom js -->
+<script src="{% static 'js/chart_custom_style1.js' %}"></script>
+<script src="{% static 'js/custom.js' %}"></script>
 {% block extra_js %}{% endblock %}
+
 </body>
 </html>
