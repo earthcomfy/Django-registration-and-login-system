@@ -1,0 +1,27 @@
+{% extends 'users/base.html' %}
+
+{% block content %}
+  <div class="container">
+    <h2>Agent Commission Page</h2>
+    
+    <!-- Display agent's name -->
+    <p>Welcome, {{ request.user.username }}</p>
+    
+    <!-- Card to display agent's commission -->
+    <div class="card">
+      <div class="card-header">Commission</div>
+      <div class="card-body">
+        <h5 class="card-title">Your Commission</h5>
+        <p class="card-text">Commission Amount: ${{ commission.commission_amount }}</p>
+      </div>
+    </div>
+    
+    <!-- List of sales -->
+    <h3>Your Sales</h3>
+    <ul>
+      {% for sale in sales %}
+        <li>{{ sale.client_name }} - Loan Amount Paid: ${{ sale.loan_amount_paid }} - Date Paid: {{ sale.date_paid }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endblock %}

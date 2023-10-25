@@ -3,6 +3,16 @@ from django.contrib.auth.models import User
 from PIL import Image
 from django.core.validators import RegexValidator
 
+
+
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    agent_code = models.CharField(max_length=10, unique=True)
+
+    def __str__(self):
+        return self.agent_code
+    
 # Extending User Model Using a One-To-One Link
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -87,3 +97,20 @@ class Attendance(models.Model):
 
     class Meta:
         unique_together = ('user', 'date',)
+        
+        
+class Sale(models.Model):
+    agent = models.ForeignKey(User, on_delete=models.CASCADE)
+    client_name = models.CharField(max_length=100)
+    loan_amount_paid = models.DecimalField(max_digits=10, decimal_places=2)
+    date_paid = models.DateField()
+
+    def __str__(self):
+        return self.client_name
+
+class Commission(models.Model):
+    agent = models.OneToOneField(User, on_delete=models.CASCADE)
+    commission_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+
+    def __str__(self):
+        return self.agent.username

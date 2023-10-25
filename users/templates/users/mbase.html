@@ -1,0 +1,209 @@
+{% load static %} 
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    <!-- basic -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- mobile metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <!-- site metas -->
+    <title>{% block title %}Matunda AC Agents{% endblock %}</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <!-- site icon -->
+    <link rel="icon" href="{% static 'images/logos/logo_icon.png' %}" type="image/png" />
+    
+    <!-- bootstrap css -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
+    <!-- site css -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <!-- responsive css -->
+    <link rel="stylesheet" href="{% static 'css/responsive.css' %}" />
+    <!-- color css -->
+    {% comment %} <link rel="stylesheet" href="{% static 'css/color_2.css' %}" /> {% endcomment %}
+    <!-- select bootstrap -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap-select.css' %}" />
+    <!-- scrollbar css -->
+    <link rel="stylesheet" href="{% static 'css/perfect-scrollbar.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/animate.css' %}">
+    <link rel="stylesheet" href="{% static 'css/flaticon.css' %}">
+    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
+    <!-- custom css -->
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}" />
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    {% block extra_css %}{% endblock %}
+</head>
+<body class="dashboard dashboard_1">
+<div class="full_container">
+    <div class="inner_container">
+        <!-- Sidebar  -->
+        <nav id="sidebar">
+            <div class="sidebar_blog_1">
+                <div class="sidebar-header">
+                    <div class="logo_section">
+                        <a href="#">
+                            <img class="logo_icon img-responsive" src="{% static 'images/logos/logo_icon.png' %}" alt="#" />
+                        </a>
+                    </div>
+                </div>
+                <div class="sidebar_user_info">
+                    <div class="icon_setting"></div>
+                    <div class="user_profle_side">
+                        <div class="user_img"><img class="img-responsive" src="{% static 'images/layout_img/user_img.jpg' %}" alt="#" /></div>
+                        <div class="user_info">
+                            <h6>Hi {{user.first_name.title|default:'Guest'}}</h6>
+                            <p><span class="online_animation"></span> Online</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="sidebar_blog_2">
+                <h4>General</h4>
+                <ul class="list-unstyled components">
+                    <li>
+                        <a href="{% url 'users-home' %}">
+                            <i class="fa fa-star"></i> <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'calendar_view' %}">
+                            <i class="fa fa-calendar"></i> <span>Clients Attendance </span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="#">
+                            <i class="fa fa-paper-plane red_color"></i> <span>Contacts</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'add_client' %}">
+                            <i class="fa fa-user-plus"></i> <span>Add Clients</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'add_client' %}">
+                            <i class="fa fa-user-plus"></i> <span>Add Agents</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'user_clients' %}">
+                            <i class="fa fa-users"></i> <span>Clients</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="fa fa-users"></i> <span>Create Routes</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'add_client' %}">
+                            <i class="fa fa-user-plus"></i> <span>Add Sales</span>
+                        </a>
+                    </li>
+                    
+                    <li><a href="{% url 'charts_page' %}"><i class="fa fa-bar-chart-o green_color"></i> <span>Charts</span></a></li>
+                    <li>
+                      <a href="{% url 'logout' %}">
+                          <i class="fas fa-sign-out-alt"></i> <span>Logout</span>
+                      </a>
+                  </li>
+                  
+                </ul>
+            </div>
+        </nav>
+        <!-- end sidebar -->
+        <!-- right content -->
+        <div id="content">
+            <!-- topbar -->
+            <div class="topbar">
+                <nav class="navbar navbar-expand-lg navbar-light">
+                    <div class="full">
+                        <button type="button" id="sidebarCollapse" class="sidebar_toggle"><i class="fa fa-bars"></i></button>
+                        <div class="logo_section">
+                            <a href="#"><img class="img-responsive" src="{% static 'images/logos/logo.png' %}" alt="#" /></a>
+                        </div>
+                        <div class="right_topbar">
+                            <div class="icon_info">
+                              <ul>
+                                <li><a href="#"><i class="fas fa-bell"></i><span class="badge">0</span></a></li>
+                                <li><a href="#"><i class="fas fa-question-circle"></i></a></li>
+                                <li><a href="#"><i class="fas fa-envelope"></i><span class="badge">0</span></a></li>
+                            </ul>
+                            
+                                <ul class="user_profile_dd">
+                                    <li>
+                                        <a class="dropdown-toggle" data-toggle="dropdown"><img class="img-responsive rounded-circle" src="{% static 'images/layout_img/user_img.jpg' %}" alt="#" /><span class="name_user">{% block full_name %}{% endblock %}</span></a>
+                                        <div class="dropdown-menu">
+                                            <a class="dropdown-item" href="{% url 'users-profile' %}">My Profile</a>
+                                            <a class="dropdown-item" href="#">Help</a>
+                                            <a class="dropdown-item" href="{% url 'logout' %}"><span>Log Out</span> <i class="fa fa-sign-out"></i></a>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+            <!-- end topbar -->
+            <!-- dashboard inner -->
+            <div class="midde_cont">
+                <div class="container-fluid">
+                    <div class="row column_title">
+                        <div class="col-md-12">
+                            <div class="page_title">
+                                <h2>{% block page_title %}{% endblock %}</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Add your content blocks here -->
+                    {% block content %}{% endblock %}
+                    <!-- footer -->
+                    <div class="container-fluid">
+                        <div class="footer">
+                            <p>&copy; {% now "Y" %} Designed by Dev_johnnes All rights reserved.<br><br> ****</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- end dashboard inner -->
+            </div>
+        </div>
+    </div>
+</div>
+<!-- jQuery -->
+<script src="{% static 'js/jquery.min.js' %}"></script>
+<script src="{% static 'js/popper.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<!-- wow animation -->
+<script src="{% static 'js/animate.js' %}"></script>
+<!-- select country -->
+<script src="{% static 'js/bootstrap-select.js' %}"></script>
+<!-- owl carousel -->
+<script src="{% static 'js/owl.carousel.js' %}"></script>
+<!-- chart js -->
+<script src="{% static 'js/Chart.min.js' %}"></script>
+<script src="{% static 'js/Chart.bundle.min.js' %}"></script>
+<script src="{% static 'js/utils.js' %}"></script>
+<script src="{% static 'js/analyser.js' %}"></script>
+<!-- nice scrollbar -->
+<script src="{% static 'js/perfect-scrollbar.min.js' %}"></script>
+<script>
+    var ps = new PerfectScrollbar('#sidebar');
+</script>
+<!-- custom js -->
+<script src="{% static 'js/chart_custom_style1.js' %}"></script>
+<script src="{% static 'js/custom.js' %}"></script>
+{% block extra_js %}{% endblock %}
+
+</body>
+</html>

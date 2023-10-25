@@ -2,8 +2,8 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 
-from .models import Profile
-from .models import Client
+from .models import Profile, UserProfile
+from .models import Client, Sale
 
 
 class RegisterForm(UserCreationForm):
@@ -41,10 +41,17 @@ class RegisterForm(UserCreationForm):
                                                                   'data-toggle': 'password',
                                                                   'id': 'password',
                                                                   }))
-
     class Meta:
         model = User
         fields = ['first_name', 'last_name', 'username', 'email', 'password1', 'password2']
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.save()
+        # Generate the agent code
+        user_profile = UserProfile(user=user, agent_code=f'COACL{UserProfile.objects.count() + 1:03d}')
+        user_profile.save()
+        return user
 
 
 class LoginForm(AuthenticationForm):
@@ -109,3 +116,10 @@ def __init__(self, *args, **kwargs):
 class AttendanceForm(forms.Form):
     latitude = forms.CharField(widget=forms.HiddenInput())
     longitude = forms.CharField(widget=forms.HiddenInput())
+    
+class SaleForm(forms.ModelForm):
+    agent = forms.ModelChoiceField(queryset=User.objects.filter(is_staff=True))
+    
+    class Meta:
+        model = Sale
+        fields = ['agent', 'client_name', 'loan_amount_paid', 'date_paid']

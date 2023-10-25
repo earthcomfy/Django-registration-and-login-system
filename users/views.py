@@ -7,7 +7,7 @@ from django.views import View
 from django.contrib.auth.decorators import login_required, permission_required
 import time
 import datetime
-from .models import Attendance
+from .models import Attendance, Commission
 from .forms import AttendanceForm 
 import calendar
 
@@ -15,8 +15,57 @@ from .forms import *
 
 @login_required
 def home(request):
-    return render(request, 'users/home.html')
+    agent = request.user
+    sales = Sale.objects.filter(agent=agent)
 
+    # Calculate the commission
+    commission_amount = 0.00
+    for sale in sales:
+        amount_paid = sale.loan_amount_paid
+        if 0 <= amount_paid <= 19000:
+            commission_amount += 0
+        elif 20000 <= amount_paid <= 100000:
+            commission_amount += 1500
+        elif 101000 <= amount_paid <= 200000:
+            commission_amount += 4000
+        elif 201000 <= amount_paid <= 250000:
+            commission_amount += 10000
+        elif 251000 <= amount_paid <= 550000:
+            commission_amount += 12000
+        elif 551000 <= amount_paid <= 850000:
+            commission_amount += 15000
+        else:
+            commission_amount += 20000
+
+    # Update the agent's commission record
+    commission, created = Commission.objects.get_or_create(agent=agent)
+    commission.commission_amount = commission_amount
+    commission.save()
+
+    # Retrieve the updated commission
+    agent_commission = Commission.objects.get(agent=agent)
+
+    return render(request, 'users/home.html', {'sales': sales, 'commission': agent_commission})
+
+
+# @login_required
+# @permission_required('your_app.add_sale', raise_exception=True)
+def add_sale(request):
+    if request.method == 'POST':
+        form = SaleForm(request.POST)
+        if form.is_valid():
+            sale = form.save(commit=False)
+            sale.agent = form.cleaned_data['agent']
+            sale.save()
+            return redirect('users-home')  # Redirect to the agent's home page
+    else:
+        form = SaleForm()
+
+    return render(request, 'users/add_sale.html', {'form': form})
+
+# @login_required
+def managementView(request):
+    return render(request, 'users/management.html')
 
 class RegisterView(View):
     form_class = RegisterForm
@@ -105,18 +154,18 @@ def profile(request):
 
 @login_required
 def add_client(request):
+    total_clients = Client.objects.count()  # Get the count of clients
     if request.method == 'POST':
         form = ClientForm(request.POST)
         if form.is_valid():
             client = form.save(commit=False)
-            client.user = request.user  # Set the user field to the currently logged-in user
+            client.user = request.user
             client.save()
-            return redirect('success_page')  # Redirect to the user's clients page
+            return redirect('success_page')
     else:
         form = ClientForm()
 
-    return render(request, 'users/add_client.html', {'form': form})
-
+    return render(request, 'users/add_client.html', {'form': form, 'total_clients': total_clients})
 
 
 def calendar_view(request):
@@ -169,3 +218,14 @@ def client_details(request, pk):
 
 def attendance_success(request):
     return render(request, 'attendance_success.html')
+
+def charts(request):
+    return render(request, 'users/chats.html')
+
+def commission_page(request):
+    # Retrieve the agent's commission and sales data
+    agent = request.user
+    commission = Commission.objects.get(agent=agent)
+    sales = Sale.objects.filter(agent=agent)
+
+    return render(request, 'users/commission_page.html', {'commission': commission, 'sales': sales})
