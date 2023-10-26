@@ -118,8 +118,6 @@ class AttendanceForm(forms.Form):
     longitude = forms.CharField(widget=forms.HiddenInput())
     
 class SaleForm(forms.ModelForm):
-    agent = forms.ModelChoiceField(queryset=User.objects.filter(is_staff=True))
-    
     class Meta:
         model = Sale
         fields = ['agent', 'client_name', 'loan_amount_paid', 'date_paid']

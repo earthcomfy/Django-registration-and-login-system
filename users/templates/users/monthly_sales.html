@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Monthly Sales</title>
+</head>
+<body>
+    <h1>Monthly Sales Totals</h1>
+    <table>
+        <tr>
+            <th>Month</th>
+            <th>Total Amount Paid</th>
+            <th>Commission</th>
+        </tr>
+        {% for entry in monthly_totals %}
+        <tr>
+            <td>{{ entry.month|date:"F Y" }}</td>
+            <td>${{ entry.total_amount_paid|default:"0.00" }}</td>
+            <td>${{ entry.total_amount_paid|mul:0.05|add:entry.total_amount_paid|get_sale_commission:entry.month|default:"0.00" }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

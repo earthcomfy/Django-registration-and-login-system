@@ -1,32 +1,17 @@
 {% extends 'users/base.html' %}
 
 {% block content %}
-  <div class="container">
-    <h2>Add Sale</h2>
+
+    <title>Add Sale</title>
+<body>
+    <h1>Add Sale</h1>
     <form method="post">
-      {% csrf_token %}
-      {{ form.non_field_errors }}
-      <div class="form-group">
-        <label for="{{ form.agent.id_for_label }}">Select Agent:</label>
-        {{ form.agent }}
-        {{ form.agent.errors }}
-      </div>
-      <div class="form-group">
-        <label for="{{ form.client_name.id_for_label }}">Client Name:</label>
-        {{ form.client_name }}
-        {{ form.client_name.errors }}
-      </div>
-      <div class="form-group">
-        <label for="{{ form.loan_amount_paid.id_for_label }}">Loan Amount Paid:</label>
-        {{ form.loan_amount_paid }}
-        {{ form.loan_amount_paid.errors }}
-      </div>
-      <div class="form-group">
-        <label for="{{ form.date_paid.id_for_label }}">Date Paid:</label>
-        {{ form.date_paid }}
-        {{ form.date_paid.errors }}
-      </div>
-      <button type="submit" class="btn btn-primary">Add Sale</button>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Add Sale</button>
     </form>
-  </div>
+    <a href="{% url 'sales' %}">View Sales</a>
+</body>
+
+
 {% endblock %}

@@ -1,3 +1,4 @@
+from decimal import Decimal
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.contrib.auth.views import LoginView, PasswordResetView, PasswordChangeView
@@ -7,45 +8,17 @@ from django.views import View
 from django.contrib.auth.decorators import login_required, permission_required
 import time
 import datetime
-from .models import Attendance, Commission
-from .forms import AttendanceForm 
+from .models import Attendance, Client, Commission, Sale
+from .forms import AttendanceForm, ClientForm, LoginForm, RegisterForm, SaleForm, UpdateProfileForm, UpdateUserForm 
 import calendar
+from django.db.models import Sum, F, Case, When, Value, IntegerField
+from django.db.models.functions import Coalesce
+from django.db.models.functions import TruncMonth
 
-from .forms import *
 
 @login_required
 def home(request):
-    agent = request.user
-    sales = Sale.objects.filter(agent=agent)
-
-    # Calculate the commission
-    commission_amount = 0.00
-    for sale in sales:
-        amount_paid = sale.loan_amount_paid
-        if 0 <= amount_paid <= 19000:
-            commission_amount += 0
-        elif 20000 <= amount_paid <= 100000:
-            commission_amount += 1500
-        elif 101000 <= amount_paid <= 200000:
-            commission_amount += 4000
-        elif 201000 <= amount_paid <= 250000:
-            commission_amount += 10000
-        elif 251000 <= amount_paid <= 550000:
-            commission_amount += 12000
-        elif 551000 <= amount_paid <= 850000:
-            commission_amount += 15000
-        else:
-            commission_amount += 20000
-
-    # Update the agent's commission record
-    commission, created = Commission.objects.get_or_create(agent=agent)
-    commission.commission_amount = commission_amount
-    commission.save()
-
-    # Retrieve the updated commission
-    agent_commission = Commission.objects.get(agent=agent)
-
-    return render(request, 'users/home.html', {'sales': sales, 'commission': agent_commission})
+    return render(request, 'users/home.html')
 
 
 # @login_required
@@ -54,14 +27,64 @@ def add_sale(request):
     if request.method == 'POST':
         form = SaleForm(request.POST)
         if form.is_valid():
-            sale = form.save(commit=False)
-            sale.agent = form.cleaned_data['agent']
-            sale.save()
-            return redirect('users-home')  # Redirect to the agent's home page
+            form.save()
+            return redirect('sales')
     else:
         form = SaleForm()
-
     return render(request, 'users/add_sale.html', {'form': form})
+
+def display_sales(request):
+    sales = Sale.objects.all()
+    return render(request, 'users/display_sales.html', {'sales': sales})
+
+def monthly_sales(request):
+    monthly_totals = Sale.objects.annotate(
+        month=TruncMonth('date_paid')
+    ).values('month').annotate(total_amount_paid=Sum('loan_amount_paid')).order_by('month')
+
+    return render(request, 'users/monthly_sales.html', {'monthly_totals': monthly_totals})
+
+# def calculate_commission(amount_paid):
+#     if 0 <= amount_paid <= 19000:
+#         return 0
+#     elif 20000 <= amount_paid <= 100000:
+#         return 1500
+#     elif 101000 <= amount_paid <= 200000:
+#         return 4000
+#     elif 201000 <= amount_paid <= 250000:
+#         return 10000
+#     elif 251000 <= amount_paid <= 550000:
+#         return 12000
+#     elif 551000 <= amount_paid <= 850000:
+#         return 15000
+#     else:
+#         return 20000
+
+def monthly_sales(request):
+    monthly_totals = Sale.objects.annotate(
+        month=TruncMonth('date_paid')
+    ).values('month').annotate(total_amount_paid=Sum('loan_amount_paid')).order_by('month')
+
+    # Define allowances for different ranges of total amount paid
+    allowances = {
+        (0, 19000): 0,
+        (20000, 100000): 1500,
+        (101000, 200000): 4000,
+        (201000, 250000): 10000,
+        (251000, 550000): 12000,
+        (551000, 850000): 15000,
+    }
+
+    # Calculate and update the commission for each sale
+    for entry in monthly_totals:
+        total_amount_paid = entry['total_amount_paid']
+        for amount_range, allowance in allowances.items():
+            if amount_range[0] <= total_amount_paid <= amount_range[1]:
+                commission = (total_amount_paid * Decimal('0.05')) + Decimal(allowance)
+                Sale.objects.filter(date_paid__month=entry['month'].month).update(commission=commission)
+
+    return render(request, 'users/monthly_sales.html', {'monthly_totals': monthly_totals})
+
 
 # @login_required
 def managementView(request):

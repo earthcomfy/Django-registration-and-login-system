@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Monthly Sales</title>
+</head>
+<body>
+    <h1>Monthly Sales Commissions</h1>
+    <table>
+        <tr>
+            <th>Month</th>
+            <th>Total Amount Paid</th>
+            <th>Commission</th>
+        </tr>
+        {% for entry in monthly_commissions %}
+        <tr>
+            <td>{{ entry.month|date:"F Y" }}</td>
+            <td>${{ entry.monthly_total|default:"0.00" }}</td>
+            <td>${{ entry.commission|default:"0.00" }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

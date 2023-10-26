@@ -104,6 +104,7 @@ class Sale(models.Model):
     client_name = models.CharField(max_length=100)
     loan_amount_paid = models.DecimalField(max_digits=10, decimal_places=2)
     date_paid = models.DateField()
+    commission = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)  # Add commission field
 
     def __str__(self):
         return self.client_name

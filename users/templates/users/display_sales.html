@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Display Sales</title>
+</head>
+<body>
+    <h1>Sales</h1>
+    <a href="{% url 'add_sale' %}">Add Sale</a>
+    <a href="{% url 'monthly_sales' %}">Monthly Sales Totals</a>
+    {% for sale in sales %}
+    <div class="sale-card">
+        <h3>{{ sale.client_name }}</h3>
+        <p>Agent: {{ sale.agent }}</p>
+        <p>Amount Paid: ${{ sale.loan_amount_paid }}</p>
+        <p>Date Paid: {{ sale.date_paid }}</p>
+    </div>
+    {% endfor %}
+</body>
+</html>
