@@ -4,8 +4,6 @@ from PIL import Image
 from django.core.validators import RegexValidator
 
 
-
-
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     agent_code = models.CharField(max_length=10, unique=True)
