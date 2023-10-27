@@ -115,3 +115,13 @@ class Commission(models.Model):
 
     def __str__(self):
         return self.agent.username
+    
+class RoutePlan(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    date = models.DateField()
+    agent = models.CharField(max_length=100)
+    institution = models.CharField(max_length=100)
+    location = models.CharField(max_length=100)
+
+    def __str__(self):
+        return f"{self.date} - {self.agent} - {self.institution} - {self.location}"

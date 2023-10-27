@@ -1,9 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Display Sales</title>
-</head>
-<body>
+{% extends "users/base.html" %}
+{% block title %}Profile Page{% endblock title %}
+{% block content %}
     <h1>Sales</h1>
     <a href="{% url 'add_sale' %}">Add Sale</a>
     <a href="{% url 'monthly_sales' %}">Monthly Sales Totals</a>
@@ -16,4 +13,4 @@
     </div>
     {% endfor %}
 </body>
-</html>
+{% endblock content %}

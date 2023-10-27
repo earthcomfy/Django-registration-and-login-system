@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 
-from .models import Profile, UserProfile
+from .models import Profile, RoutePlan, UserProfile
 from .models import Client, Sale
 
 
@@ -121,3 +121,11 @@ class SaleForm(forms.ModelForm):
     class Meta:
         model = Sale
         fields = ['agent', 'client_name', 'loan_amount_paid', 'date_paid']
+        
+        
+class RoutePlanForm(forms.ModelForm):
+    agent = forms.ModelChoiceField(queryset=User.objects.all().order_by('username'))
+    
+    class Meta:
+        model = RoutePlan
+        fields = ['date', 'agent', 'institution', 'location']

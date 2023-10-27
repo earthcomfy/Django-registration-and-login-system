@@ -33,7 +33,7 @@
                        </div>
                        <div class="counter_no">
                         <div>
-                            <p class="total_no">KES {{ commission.commission_amount }}</p>
+                            <p class="total_no">KES {{ commission|default:"0.00" }}</p>
                             <p class="head_couter">
                                Commission update
                             </p>
@@ -107,30 +107,33 @@
              
            </div>
            <div class="row column4 graph">
-              <div class="col-md-6">
-                 <div class="dash_blog">
-                    <div class="dash_blog_inner">
-                       <div class="dash_head">
-                          <h3><span><i class="fa fa-calendar"></i>
-                          date 22 october
-                       </span><span class="plus_green_bt"><a href="#">+</a></span></h3>
-                       </div>
-                       <div class="list_cont">
-                          <p>Upcoming Marketing routes for {{user.first_name.title|default:'Guest'}} </p>
-                       </div>
-                       <div class="task_list_main">
-                          <ul class="task_list">
-                             <li><a href="#">route 1</a><br><strong></strong></li>
-                             <li><a href="#">route 2</a><br><strong></strong></li>
-                             
-                          </ul>
-                       </div>
-                       <div class="read_more">
-                          <div class="center"><a class="main_bt read_bt" href="#">Read More</a></div>
-                       </div>
-                    </div>
-                 </div>
-              </div>
+               <div class="col-md-6">
+                  <div class="dash_blog">
+                     <div class="dash_blog_inner">
+                        <div class="dash_head">
+                              <h3>
+                                 <span><i class="fa fa-calendar"></i> Date {{ some_date }}</span>
+                                 <span class="plus_green_bt"><a href="#">+</a></span>
+                              </h3>
+                        </div>
+                        <div class="list_cont">
+                              <p>Upcoming Marketing routes for {{ user.first_name.title|default:'Guest' }}</p>
+                        </div>
+                        <div class="task_list_main">
+                           <ul class="task_list">
+                              {% for route in routes %}
+                              <a href="{% url 'route_plan_detail' plan.id %}">{{ plan.date }} - {{ plan.institution }}</a>
+                              {% endfor %}
+                           </ul>
+                        </div>
+                        <div class="read_more">
+                              <div class="center"><a class="main_bt read_bt" href="#">Read More</a></div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            
+       
               <div class="col-md-6">
                  <div class="dash_blog">
                     <div class="dash_blog_inner">

@@ -8,17 +8,52 @@ from django.views import View
 from django.contrib.auth.decorators import login_required, permission_required
 import time
 import datetime
-from .models import Attendance, Client, Commission, Sale
-from .forms import AttendanceForm, ClientForm, LoginForm, RegisterForm, SaleForm, UpdateProfileForm, UpdateUserForm 
+from .models import Attendance, Client, Commission, RoutePlan, Sale
+from .forms import AttendanceForm, ClientForm, LoginForm, RegisterForm, RoutePlanForm, SaleForm, UpdateProfileForm, UpdateUserForm 
 import calendar
 from django.db.models import Sum, F, Case, When, Value, IntegerField
 from django.db.models.functions import Coalesce
 from django.db.models.functions import TruncMonth
 
 
+
+def update_commissions():
+    current_month = datetime.date.today().month
+    sales_for_current_month = Sale.objects.filter(date_paid__month=current_month)
+    
+    allowances = {
+        (0, 19000): 0,
+        (20000, 100000): 1500,
+        (101000, 200000): 4000,
+        (201000, 250000): 10000,
+        (251000, 550000): 12000,
+        (551000, 850000): 15000,
+    }
+
+    for sale in sales_for_current_month:
+        total_amount_paid = sale.loan_amount_paid
+        allowance = 0
+
+        for amount_range, allowance_value in allowances.items():
+            if amount_range[0] <= total_amount_paid <= amount_range[1]:
+                allowance = allowance_value
+
+        commission = (total_amount_paid * Decimal('0.05')) + Decimal(allowance)
+        sale.commission = commission
+        sale.save()
+        
 @login_required
 def home(request):
-    return render(request, 'users/home.html')
+     # Call the update_commissions function to update commissions first
+    update_commissions()
+
+    # Retrieve the logged-in user's commission for the current month
+    current_user = request.user
+    current_month = datetime.date.today().month
+    user_commission = Sale.objects.filter(agent=current_user, date_paid__month=current_month).aggregate(total=Sum('commission'))['total'] or 0
+
+
+    return render(request, 'users/home.html', {'commission': user_commission})
 
 
 # @login_required
@@ -44,24 +79,13 @@ def monthly_sales(request):
 
     return render(request, 'users/monthly_sales.html', {'monthly_totals': monthly_totals})
 
-# def calculate_commission(amount_paid):
-#     if 0 <= amount_paid <= 19000:
-#         return 0
-#     elif 20000 <= amount_paid <= 100000:
-#         return 1500
-#     elif 101000 <= amount_paid <= 200000:
-#         return 4000
-#     elif 201000 <= amount_paid <= 250000:
-#         return 10000
-#     elif 251000 <= amount_paid <= 550000:
-#         return 12000
-#     elif 551000 <= amount_paid <= 850000:
-#         return 15000
-#     else:
-#         return 20000
 
+
+@login_required
 def monthly_sales(request):
-    monthly_totals = Sale.objects.annotate(
+    current_user = request.user  # Get the currently logged-in user
+
+    monthly_totals = Sale.objects.filter(agent=current_user).annotate(
         month=TruncMonth('date_paid')
     ).values('month').annotate(total_amount_paid=Sum('loan_amount_paid')).order_by('month')
 
@@ -84,7 +108,6 @@ def monthly_sales(request):
                 entry['commission'] = commission
 
     return render(request, 'users/monthly_sales.html', {'monthly_totals': monthly_totals})
-
 
 # @login_required
 def managementView(request):
@@ -252,3 +275,15 @@ def commission_page(request):
     sales = Sale.objects.filter(agent=agent)
 
     return render(request, 'users/commission_page.html', {'commission': commission, 'sales': sales})
+
+def create_route_plan(request):
+    if request.method == 'POST':
+        form = RoutePlanForm(request.POST)
+        if form.is_valid():
+            form.instance.user = request.user  # Assign the current user to the route plan
+            form.save()
+            return redirect('create_route_plan')  # Redirect to a page displaying route plans
+    else:
+        form = RoutePlanForm()
+
+    return render(request, 'users/create_route_plan.html', {'form': form})

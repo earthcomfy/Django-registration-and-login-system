@@ -1,0 +1,15 @@
+
+{% extends "users/base.html" %}
+{% block title %}Profile Page{% endblock title %}
+
+{% block content %}
+  <h2>Create Route Plan</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Submit</button>
+  </form>
+{% endblock %}
+
+
+

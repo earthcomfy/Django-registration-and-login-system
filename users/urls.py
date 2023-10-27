@@ -29,4 +29,6 @@ urlpatterns = [
     path('sales/', views.display_sales, name='sales'),
     path('monthly_sales/', views.monthly_sales, name='monthly_sales'),
     # path('monthly_commissions/', views.monthly_commissions, name='monthly_commissions'),
+    
+   path('create_route_plan/', views.create_route_plan, name='create_route_plan'),
 ]

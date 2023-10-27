@@ -1,9 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Monthly Sales</title>
-</head>
-<body>
+{% extends "users/base.html" %}
+{% block title %}Profile Page{% endblock title %}
+{% block content %}
     <h1>Monthly Sales Commissions</h1>
     <table>
         <tr>
@@ -20,4 +17,4 @@
         {% endfor %}
     </table>
 </body>
-</html>
+{% endblock content %}
