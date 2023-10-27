@@ -15,41 +15,9 @@
         <tr>
             <td>{{ entry.month|date:"F Y" }}</td>
             <td>${{ entry.total_amount_paid|default:"0.00" }}</td>
-            <td>${{ entry.total_amount_paid|mul:0.05|add:entry.total_amount_paid|get_sale_commission:entry.month|default:"0.00" }}</td>
+            <td>${{ entry.commission|default:"0.00" }}</td>
         </tr>
         {% endfor %}
     </table>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

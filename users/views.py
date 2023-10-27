@@ -81,7 +81,7 @@ def monthly_sales(request):
         for amount_range, allowance in allowances.items():
             if amount_range[0] <= total_amount_paid <= amount_range[1]:
                 commission = (total_amount_paid * Decimal('0.05')) + Decimal(allowance)
-                Sale.objects.filter(date_paid__month=entry['month'].month).update(commission=commission)
+                entry['commission'] = commission
 
     return render(request, 'users/monthly_sales.html', {'monthly_totals': monthly_totals})
 
