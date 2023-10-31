@@ -44,7 +44,7 @@ def update_commissions():
         
 @login_required
 def home(request):
-     # Call the update_commissions function to update commissions first
+    # Call the update_commissions function to update commissions first
     update_commissions()
 
     # Retrieve the logged-in user's commission for the current month
@@ -52,8 +52,11 @@ def home(request):
     current_month = datetime.date.today().month
     user_commission = Sale.objects.filter(agent=current_user, date_paid__month=current_month).aggregate(total=Sum('commission'))['total'] or 0
 
+    # Count the total number of clients for the current user
+    total_clients = Client.objects.filter(user=current_user).count()
 
-    return render(request, 'users/home.html', {'commission': user_commission})
+    return render(request, 'users/home.html', {'commission': user_commission, 'total_clients': total_clients})
+
 
 
 # @login_required
@@ -208,6 +211,7 @@ def add_client(request):
             client.user = request.user
             client.save()
             return redirect('success_page')
+        
     else:
         form = ClientForm()
 
