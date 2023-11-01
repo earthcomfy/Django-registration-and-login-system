@@ -121,10 +121,8 @@
                         </div>
                         <div class="task_list_main">
                            <ul class="task_list">
-                              {% for route in routes %}
-                              <li>
-                                 <a href="{% url 'route_plan_detail' route.id %}">{{ route.date }} - {{ route.institution }}</a>
-                              </li>
+                              {% for route in user_routes %}
+                              <li>{{ route.date }} - {{ route.institution }} - {{ route.location }}</li>
                               {% endfor %}
                            </ul>
                         </div>

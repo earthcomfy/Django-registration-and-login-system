@@ -55,10 +55,15 @@ def home(request):
     # Count the total number of clients for the current user
     total_clients = Client.objects.filter(user=current_user).count()
 
-    return render(request, 'users/home.html', {'commission': user_commission, 'total_clients': total_clients})
+    # Retrieve the routes for the currently logged-in user
+    user_routes = RoutePlan.objects.filter(user=current_user)
 
-
-
+    return render(request, 'users/home.html', {
+        'commission': user_commission,
+        'total_clients': total_clients,
+        'user_routes': user_routes  # Pass the user's routes to the template
+    })
+    
 # @login_required
 # @permission_required('your_app.add_sale', raise_exception=True)
 def add_sale(request):
