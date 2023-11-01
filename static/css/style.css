@@ -2326,11 +2326,7 @@ h2.invoice_head small {
     background-color: #fff;
 }
 
-<<<<<<< HEAD
-.table_row tbody {}
-=======
-/* .table_row tbody {} */
->>>>>>> aa4d792203ac759ad6ca019f3e8a91c43bfbbcf9
+
 
 .table_row tbody tr {
     border: none;
@@ -3094,12 +3090,6 @@ ul.labels-category li p {
     padding: 7px 0;
 }
 
-<<<<<<< HEAD
-.bottom_list .left_rating p.ratings a {}
-=======
-/* .bottom_list .left_rating p.ratings a {} */
->>>>>>> aa4d792203ac759ad6ca019f3e8a91c43bfbbcf9
-
 .fa.fa-star {
     color: #ff9800;
 }
@@ -3350,3 +3340,28 @@ table.projects tr td:first-child {
     height: 100%;
     min-height: 720px;
 }
+
+/* styles.css */
+.form-element {
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.form-element label {
+    display: block;
+}
+
+.form-element input[type="text"],
+.form-element input[type="password"],
+.form-element select,
+.form-element textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Add more styling for specific form elements if needed */
+

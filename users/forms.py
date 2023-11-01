@@ -125,7 +125,13 @@ class SaleForm(forms.ModelForm):
         
 class RoutePlanForm(forms.ModelForm):
     agent = forms.ModelChoiceField(queryset=User.objects.all().order_by('username'))
-    
+
     class Meta:
         model = RoutePlan
         fields = ['date', 'agent', 'institution', 'location']
+        widgets = {
+            'date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
+            'agent': forms.TextInput(attrs={'class': 'form-control', 'style': 'width: 40%;'}),
+            'institution': forms.TextInput(attrs={'class': 'form-control', 'style': 'width: 40%;'}),
+            'location': forms.TextInput(attrs={'class': 'form-control', 'style': 'width: 40%;'}),
+        }

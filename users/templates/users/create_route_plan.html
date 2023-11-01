@@ -1,15 +1,33 @@
+{% extends 'users/base.html' %}
+{% load static %} 
+{% block page_title %}Create Route Plan{% endblock %}
 
-{% extends "users/base.html" %}
-{% block title %}Profile Page{% endblock title %}
-
+{% block title %}Create Route Plan{% endblock title%}
 {% block content %}
-  <h2>Create Route Plan</h2>
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Submit</button>
-  </form>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form method="post">
+                {% csrf_token %}
+                {{ form.date.label_tag }}
+                {{ form.date }}
+                {{ form.date.errors }}
+                <br>
+                {{ form.agent.label_tag }}
+                {{ form.agent }}
+                {{ form.agent.errors }}
+                <br>
+                {{ form.institution.label_tag }}
+                {{ form.institution }}
+                {{ form.institution.errors }}
+                <br>
+                {{ form.location.label_tag }}
+                {{ form.location }}
+                {{ form.location.errors }}
+                <br>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
 {% endblock %}
-
-
-
