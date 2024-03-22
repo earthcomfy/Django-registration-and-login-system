@@ -1,0 +1,13 @@
+DEBUG = True
+DATABASES = {
+    'default': {
+        'ENGINE': 'sql_server.pyodbc',
+        'NAME': 'TSM',
+        'HOST': 'WJRZMXTEST01.ced.corp.cummins.com',
+        'USER': 'user_TSM',
+        'PASSWORD': 'user*TSM',
+        'OPTIONS': {
+            'driver': 'ODBC Driver 13 for SQL Server'
+        }
+    }
+}
