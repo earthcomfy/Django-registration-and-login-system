@@ -10,7 +10,10 @@
         <hr class="my-4">
         <p class="lead">
             {% if user.is_authenticated %}
-                <a class="btn btn-primary btn-lg" href="{% url 'logout' %}" role="button">Logout</a>
+                  <form action="{% url 'logout' %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-primary btn-lg" id="logout">Logout</button>
+                  </form>
             {% else %}
                 <a class="btn btn-primary btn-lg" href="{% url 'login' %}" role="button">Sign in</a>
             {% endif %}
